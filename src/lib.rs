@@ -31,19 +31,22 @@ where Model: P<First, x>
 { fn assert() {} }
 
 // option: works
+// makes sense since P<b, x> can be used to trigger the transitivity rule
 // impl P<b, x> for M
 // { fn assert() {} }
 
 // option: works
+// makes sense for same reason as above
 // impl<Model> P<b, x> for Model
 // { fn assert() {} }
 
 // option: works
+// makes sense since there's no P<b, x> to trigger the transitivity rule
 // impl P<b, y> for M
 // { fn assert() {} }
 
 // option: doesn't works
-// which is weird since there's no P<b, x> to trigger the transitivity rule
+// which is weird since it worked above
 // impl<Model> P<b, y> for Model
 // { fn assert() {} }
 
@@ -71,6 +74,6 @@ where Model: P<First, x>
 
 // option: doesn't work
 // which is weird since there's no Q<b>
-impl<Model, Second> P<b, Second> for Model
-where Model: Q<b>
-{ fn assert() {} }
+// impl<Model, Second> P<b, Second> for Model
+// where Model: Q<b>
+// { fn assert() {} }
