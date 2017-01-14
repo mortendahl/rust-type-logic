@@ -10,6 +10,7 @@ mod tests {
     }
 }
 
+// model
 struct M();
 
 // propositions
