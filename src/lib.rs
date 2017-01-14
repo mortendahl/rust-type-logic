@@ -6,46 +6,71 @@ mod tests {
     use super::*;
     #[test]
     fn it_works() {
-        <Model as Predicate<b, y>>::assert();
+        <M as P<b, y>>::assert();
     }
 }
 
-struct Model();
+struct M();
 
-trait Predicate<First, Second> {
-    fn assert();
-}
-
+// propositions
 struct a();
 struct b();
-
 struct x();
 struct y();
 
-// axiom
-impl Predicate<a, x> for Model {
-    fn assert() {}
-}
+// predicates
+trait P<First, Second> { fn assert(); }
+trait Q<First> { fn assert(); }
 
-// transitivity in second component
-impl<First> Predicate<First, y> for Model
-where
-    Model: Predicate<First, x>
-{
-    fn assert() {}
-}
+// axioms
+impl<Model> P<a, x> for Model { fn assert() {} }
 
-// option 1: works (on its own)
-// impl Predicate<b, x> for Model {
-//     fn assert() {}
-// }
+// transitivity rule
+impl<Model, First> P<First, y> for Model
+where Model: P<First, x>
+{ fn assert() {} }
 
-// option 2: works (on its own)
-// impl Predicate<b, y> for Model {
-//     fn assert() {}
-// }
+// option: works
+// impl P<b, x> for M
+// { fn assert() {} }
 
-// option 3: doesn't work (even on its own)
-impl<Second> Predicate<b, Second> for Model {
-    fn assert() {}
-}
+// option: works
+// impl<Model> P<b, x> for Model
+// { fn assert() {} }
+
+// option: works
+// impl P<b, y> for M
+// { fn assert() {} }
+
+// option: doesn't works
+// which is weird since there's no P<b, x> to trigger the transitivity rule
+// impl<Model> P<b, y> for Model
+// { fn assert() {} }
+
+// option: doesn't work
+// makes sense in that it would give both P<b, x> and P<b, y>, and hence two ways to P<b, y>
+// impl<Second> P<b, Second> for M
+// { fn assert() {} }
+
+// option: doesn't work
+// makes sense in that it would give both P<b, x> and P<b, y>, and hence two ways to P<b, y>
+// impl<Model, Second> P<b, Second> for Model
+// { fn assert() {} }
+
+// option: doesn't work
+// makes sense since Q is not implemented for M
+// impl P<b, y> for M
+// where M: Q<b>
+// { fn assert() {} }
+
+// option: doesn't work
+// which is weird since there's no P<b, x> to trigger the transitivity rule, nor any Q<b>
+// impl<Model> P<b, y> for Model
+// where Model: Q<b>
+// { fn assert() {} }
+
+// option: doesn't work
+// which is weird since there's no Q<b>
+impl<Model, Second> P<b, Second> for Model
+where Model: Q<b>
+{ fn assert() {} }
