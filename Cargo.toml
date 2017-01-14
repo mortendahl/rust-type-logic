@@ -1,0 +1,6 @@
+[package]
+name = "typeinference"
+version = "0.1.0"
+authors = ["Morten Dahl <mortendahlcs@gmail.com>"]
+
+[dependencies]
