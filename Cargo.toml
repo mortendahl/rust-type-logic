@@ -1,5 +1,5 @@
 [package]
-name = "typeinference"
+name = "type-logic"
 version = "0.1.0"
 authors = ["Morten Dahl <mortendahlcs@gmail.com>"]
 

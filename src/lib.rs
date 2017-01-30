@@ -1,13 +1,10 @@
 #![allow(non_camel_case_types)]
 #![allow(dead_code)]
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn it_works() {
-        <M as P<b, y>>::assert();
-    }
+// goal
+#[test]
+fn goal() {
+    <M as P<b, y>>::assert();
 }
 
 // model
@@ -48,8 +45,8 @@ where Model: P<First, x>
 
 // option: doesn't works
 // which is weird since it worked above
-// impl<Model> P<b, y> for Model
-// { fn assert() {} }
+impl<Model> P<b, y> for Model
+{ fn assert() {} }
 
 // option: doesn't work
 // makes sense in that it would give both P<b, x> and P<b, y>, and hence two ways to P<b, y>
